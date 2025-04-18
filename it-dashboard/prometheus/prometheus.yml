@@ -1,0 +1,34 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+            - alertmanager:9093
+
+rule_files:
+  - "alert_rules.yml"
+
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  - job_name: 'node'
+    static_configs:
+      - targets: ['node-exporter:9100']
+    
+  # # 为额外的VM添加更多节点导出器
+  # - job_name: 'remote-node-1'
+  #   static_configs:
+  #     - targets: ['192.168.1.10:9100']  # 替换为实际的远程IP
+  #       labels:
+  #         instance: 'vm-1'
+
+  # - job_name: 'remote-node-2'
+  #   static_configs:
+  #     - targets: ['192.168.1.11:9100']  # 替换为实际的远程IP
+  #       labels:
+  #         instance: 'vm-2'
